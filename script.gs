@@ -42,9 +42,6 @@ function isComplete(val, col){
   return (val === complete && col === colResult ? true : false);
 }
 
-console.log("テスト");
-
-
 // ====================================
 // cell constructor
 // ====================================
@@ -69,11 +66,13 @@ function CellData(col, row) {
 var Cell = new CellData(colNum, rowNum);
 
 if (isComplete(Cell.getValue(), Cell.col)) {
-  Browser.msgBox("結果入力");
+
+  Browser.msgBox("終了時間入力");
   Cell.setTime(colEndTime);
+
 } else if (isTaskColumn(Cell.col)) {
-  Browser.msgBox("タスク入力");
+
+  Browser.msgBox("開始時間入力");
   Cell.setTime(colStartTime);
 }
-
 
