@@ -1,44 +1,74 @@
 // ====================================
-// シートオブジェクトの取得
+// get object
 // ====================================
-var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+var objSheet = SpreadsheetApp.getActiveSpreadsheet();
 
 // ====================================
-// アクティブセル（列）の取得
+// get active sheet
 // ====================================
-var colNum = spreadsheet.getActiveCell().getColumn();
+var sheet = objSheet.getActiveSheet();
 
 // ====================================
-// アクティブセル（値）の取得
+// get active cell
 // ====================================
-var value = spreadsheet.getActiveCell().getValue();
+var rowNum = objSheet.getActiveCell().getRow();
+var colNum = objSheet.getActiveCell().getColumn();
+var valStr = objSheet.getActiveCell().getValue();
 
 // ====================================
-// アルファベット列名
+// const result word
 // ====================================
-var colNameB = 2;
-var colNameD = 4;
+var complete = "完了";
 
 // ====================================
-// 結果
+// const header name
 // ====================================
-var complet = "完了";
+var colTask = 2;      // 項目
+var colStartTime = 3; // 開始
+var colResult = 4;    // 結果
+var colEndTime = 5;   // 終了
+var colWorkTime = 7;  // ワークタイム 
 
 
+
 // ====================================
-// アクティブセル（B列・D列）の確認
+// check active cell
 // ====================================
-function isTargetColumn(col) {
-  return (col === colNameB ? true
-        : col === colNameD ? true
-        : false);
+function isTaskColumn(col) {
+  return (col === colTask ? true : false);
 }
 
-// ====================================
-// 項目の結果確認
-// ====================================
-function isComplet(val){
-  return (val === complet ? true : false);
+function isComplete(val, col){
+  return (val === complete && col === colResult ? true : false);
 }
 
-Browser.msgBox(isComplet(value));
+
+// ====================================
+// cell constructor
+// ====================================
+function CellData(col, row) {
+  return {
+    col: col,
+    row: row,
+    setTime: function(colEndTime) {
+      sheet.getRange(this.row, colEndTime).setValue(new Date());
+    },
+    getValue: function() {
+      return sheet.getRange(this.row, this.col).getValue();
+    }
+  }
+}
+
+
+// ====================================
+// main
+// ====================================
+var Cell = new CellData(colNum, rowNum);
+
+if (isComplete(Cell.getValue(), Cell.col)) {
+  Browser.msgBox("結果入力");
+  Cell.setTime(colEndTime);
+}
+
+
+
