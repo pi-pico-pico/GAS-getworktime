@@ -42,6 +42,8 @@ function isComplete(val, col){
   return (val === complete && col === colResult ? true : false);
 }
 
+console.log("テスト");
+
 
 // ====================================
 // cell constructor
@@ -63,6 +65,7 @@ function CellData(col, row) {
 // ====================================
 // main
 // ====================================
+// @ts-ignore
 var Cell = new CellData(colNum, rowNum);
 
 if (isComplete(Cell.getValue(), Cell.col)) {
@@ -72,3 +75,5 @@ if (isComplete(Cell.getValue(), Cell.col)) {
   Browser.msgBox("タスク入力");
   Cell.setTime(colStartTime);
 }
+
+
