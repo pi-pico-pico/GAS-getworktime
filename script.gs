@@ -57,7 +57,7 @@ function CellData(col, row) {
     }
   }
 }
-
+console.log("テスト");
 
 // ====================================
 // main
@@ -75,4 +75,6 @@ if (isComplete(Cell.getValue(), Cell.col)) {
   Browser.msgBox("開始時間入力");
   Cell.setTime(colStartTime);
 }
+
+
 
