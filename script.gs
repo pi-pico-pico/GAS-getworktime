@@ -68,7 +68,7 @@ var Cell = new CellData(colNum, rowNum);
 if (isComplete(Cell.getValue(), Cell.col)) {
   Browser.msgBox("結果入力");
   Cell.setTime(colEndTime);
+} else if (isTaskColumn(Cell.col)) {
+  Browser.msgBox("タスク入力");
+  Cell.setTime(colStartTime);
 }
-
-
-
