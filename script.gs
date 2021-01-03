@@ -13,7 +13,6 @@ var sheet = objSheet.getActiveSheet();
 // ====================================
 var rowNum = objSheet.getActiveCell().getRow();
 var colNum = objSheet.getActiveCell().getColumn();
-var valStr = objSheet.getActiveCell().getValue();
 
 // ====================================
 // const result word
@@ -38,9 +37,27 @@ function isTaskColumn(col) {
   return (col === colTask ? true : false);
 }
 
-function isComplete(val, col){
-  return (val === complete && col === colResult ? true : false);
+function isResultColumn(col) {
+  return (col === colResult ? true : false);
 }
+
+function isComplete(val){
+  return (val === complete ? true : false);
+}
+
+
+// ====================================
+// write data
+// ====================================
+function setWorkTime(col, message) {
+
+  var time = Cell.getColValue(col);
+  if (!time) {
+    Browser.msgBox(message);
+    Cell.setTime(col);
+  }
+}
+
 
 // ====================================
 // cell constructor
@@ -49,31 +66,30 @@ function CellData(col, row) {
   return {
     col: col,
     row: row,
-    setTime: function(colEndTime) {
-      sheet.getRange(this.row, colEndTime).setValue(new Date());
+    setTime: function(column) {
+      sheet.getRange(this.row, column).setValue(new Date());
+    },
+    getColValue: function(column) {
+      return sheet.getRange(this.row, column).getValue();
     },
     getValue: function() {
       return sheet.getRange(this.row, this.col).getValue();
     }
+
   }
 }
-console.log("テスト");
+
 
 // ====================================
 // main
 // ====================================
-// @ts-ignore
 var Cell = new CellData(colNum, rowNum);
+if (isTaskColumn(Cell.col)) {
+  setWorkTime(colStartTime, "開始時間入力");
 
-if (isComplete(Cell.getValue(), Cell.col)) {
+} else if (isComplete(Cell.getValue()) && isResultColumn(Cell.col)) {
+  setWorkTime(colEndTime, "終了時間入力");
 
-  Browser.msgBox("終了時間入力");
-  Cell.setTime(colEndTime);
-
-} else if (isTaskColumn(Cell.col)) {
-
-  Browser.msgBox("開始時間入力");
-  Cell.setTime(colStartTime);
 }
 
 
